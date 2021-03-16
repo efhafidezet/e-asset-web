@@ -16,3 +16,19 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('track', 'TrackCtrl@show');
+
+Route::get('location', 'TrackCtrl@location');
+
+Route::get('assignment', 'TrackCtrl@assignment');
+
+Route::get('asset', 'TrackCtrl@asset');
+
+Route::get('report', 'TrackCtrl@report');
+
+Route::get('user', 'TrackCtrl@user');

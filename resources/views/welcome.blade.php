@@ -16,7 +16,7 @@
 
         <style>
             body {
-                font-family: 'Nunito', sans-serif;
+                font-family: 'Nunito';
             }
         </style>
     </head>
@@ -27,7 +27,7 @@
                     @auth
                         <a href="{{ url('/home') }}" class="text-sm text-gray-700 underline">Home</a>
                     @else
-                        <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Log in</a>
+                        <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Login</a>
 
                         @if (Route::has('register'))
                             <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a>
@@ -109,7 +109,7 @@
                             </svg>
 
                             <a href="https://laravel.bigcartel.com" class="ml-1 underline">
-                                ASD
+                                Shop
                             </a>
 
                             <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="ml-4 -mt-px w-5 h-5 text-gray-400">
