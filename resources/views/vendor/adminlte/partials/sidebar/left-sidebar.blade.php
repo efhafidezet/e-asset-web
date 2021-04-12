@@ -24,4 +24,22 @@
         </nav>
     </div>
 
+    @if (isset(Auth::user()->role))
+        @if (Auth::user()->role == 3)
+            <script>
+                window.onload = function(){
+                    document.getElementById('logout-form').submit();
+                };
+            </script>
+        @else
+            
+        @endif
+    @else
+        <script>
+            window.onload = function(){
+                window.location.replace("{{url('')}}/login");
+            };
+        </script>
+    @endif
+
 </aside>

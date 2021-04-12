@@ -272,11 +272,15 @@ return [
             'url'  => 'report',
             'icon' => 'fas fa-fw fa-sticky-note',
         ],
-        ['header' => 'Pengaturan Akun'],
+        [
+            'header' => 'Pengaturan Akun',
+            'can'  => 'manage-user',
+        ],
         [
             'text' => 'Pengguna',
             'url'  => 'user',
             'icon' => 'fas fa-fw fa-user',
+            'can'  => 'manage-user',
         ],
         // [
         //     'text' => 'change_password',

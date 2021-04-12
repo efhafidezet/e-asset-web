@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Penugasan')
+@section('title', 'Pengguna')
 
 @section('content_header')
-<h1>Penugasan</h1>
+<h1>Pengguna</h1>
 @stop
 
 @section('content')
@@ -47,19 +47,152 @@
                                 <tr>
                                     <th style="width: 10px;">No</th>
                                     <th>Nama</th>
-                                    <th>Lokasi</th>
-                                    <th>Tanggal</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
                                     <th>Status</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Survei Sanitasi</td>
-                                    <td>Politeknik Negeri Jakarta</td>
-                                    <td>1 Maret 2021</td>
-                                    <td align="center"><span class="badge bg-success">SELESAI</span></td>
-                                </tr>
+                                @foreach ($data as $index => $item)
+                                    <tr>
+                                        <td>{{$index+1}}</td>
+                                        <td>{{$item->name}}</td>
+                                        <td>{{$item->email}}</td>
+                                        <td>
+                                            @if ($item->role == 1)
+                                                Administrator
+                                            @else
+                                                Manajer Operasional
+                                            @endif
+                                        </td>
+                                        <td align="center">
+                                            @if ($item->is_active == 1)
+                                                <span class="badge bg-success">Aktif</span>
+                                            @else
+                                                <span class="badge bg-danger">Non Aktif</span>
+                                            @endif
+                                            </td>
+                                        <td align="center">
+                                            <button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modal-update-data-{{$item->id}}">
+                                                Edit
+                                            </button>
+                                            {{-- <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal-delete-data-{{$item->id}}">
+                                                Hapus
+                                            </button> --}}
+                                        </td>
+                                    </tr>
+                                    <div class="modal fade" id="modal-update-data-{{$item->id}}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Ubah Pengguna</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form class="form-horizontal" method="POST" action="{{url('')}}/user/update">
+                                                    @csrf
+                                                    <div class="card-body">
+                                                        <div class="form-group row">
+                                                            <label for="inputName" class="col-sm-4 col-form-label">Nama Pengguna</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="text" class="form-control" id="inputName" placeholder="" name="name" value="{{$item->name}}" required/>
+                                                                {{-- @error('mName')
+                                                                    <span class="text-danger" role="alert">
+                                                                        <strong>{{ $message }}</strong>
+                                                                    </span>
+                                                                @enderror --}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="inputName" class="col-sm-4 col-form-label">Email</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="email" class="form-control" id="inputName" placeholder="" name="email" value="{{$item->email}}" required/>
+                                                                {{-- @error('mName')
+                                                                    <span class="text-danger" role="alert">
+                                                                        <strong>{{ $message }}</strong>
+                                                                    </span>
+                                                                @enderror --}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="inputName" class="col-sm-4 col-form-label">Kata Sandi</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="password" class="form-control" id="" placeholder="" name="password" value=""/>
+                                                                {{-- @error('mName')
+                                                                    <span class="text-danger" role="alert">
+                                                                        <strong>{{ $message }}</strong>
+                                                                    </span>
+                                                                @enderror --}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="inputName" class="col-sm-4 col-form-label">Role</label>
+                                                            <div class="col-sm-8">
+                                                                <select name="role" id="" class="form-control">
+                                                                    @if ($item->role == 1)
+                                                                        <option value="1" selected>Administrator</option>
+                                                                        <option value="2">Manajer Operasional</option>
+                                                                        <option value="3">Peminjam</option>
+                                                                    @else
+                                                                        @if ($item->role == 2)
+                                                                            <option value="1">Administrator</option>
+                                                                            <option value="2" selected>Manajer Operasional</option>
+                                                                            <option value="3">Peminjam</option>
+                                                                        @else
+                                                                            <option value="1">Administrator</option>
+                                                                            <option value="2">Manajer Operasional</option>
+                                                                            <option value="3" selected>Peminjam</option>
+                                                                        @endif
+                                                                    @endif
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="inputName" class="col-sm-4 col-form-label">Status</label>
+                                                            <div class="col-sm-8">
+                                                                <select name="is_active" id="" class="form-control">
+                                                                    @if ($item->is_active == 0)
+                                                                        <option value="1">Aktif</option>
+                                                                        <option value="0" selected>Non Aktif</option>
+                                                                    @else
+                                                                        <option value="1" selected>Aktif</option>
+                                                                        <option value="0">Non Aktif</option>
+                                                                    @endif
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <input type="hidden" class="form-control" id="inputName" placeholder="" name="user_id" value="{{$item->id}}" required/>
+                                                        <button type="submit" class="btn btn-primary" style="float: right;">Simpan</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <!-- /.modal-content -->
+                                        </div>
+                                        <!-- /.modal-dialog -->
+                                    </div>
+                                    <div class="modal fade" id="modal-delete-data-{{$item->id}}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Hapus Pengguna</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form class="form-horizontal" method="POST" action="">
+                                                    @csrf
+                                                    <div class="card-body">
+                                                        <button type="submit" class="btn btn-danger" style="float: right;">Hapus</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <!-- /.modal-content -->
+                                        </div>
+                                        <!-- /.modal-dialog -->
+                                    </div>
+                                @endforeach
                             </tbody>
                         </table>                        
                     </div>
@@ -73,6 +206,69 @@
     <!-- /.container-fluid -->
 </section>
 <!-- /.content -->
+<div class="modal fade" id="modal-lg">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Tambah Pengguna Baru</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="form-horizontal" method="POST" action="{{url('')}}/user">
+                @csrf
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label for="inputName" class="col-sm-4 col-form-label">Nama Pengguna</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="inputName" placeholder="" name="name" value="" required/>
+                            {{-- @error('mName')
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror --}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputName" class="col-sm-4 col-form-label">Email</label>
+                        <div class="col-sm-8">
+                            <input type="email" class="form-control" id="inputName" placeholder="" name="email" value="" required/>
+                            {{-- @error('mName')
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror --}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputName" class="col-sm-4 col-form-label">Kata Sandi</label>
+                        <div class="col-sm-8">
+                            <input type="password" class="form-control" id="" placeholder="" name="password" value="" required/>
+                            {{-- @error('mName')
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror --}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputName" class="col-sm-4 col-form-label">Role</label>
+                        <div class="col-sm-8">
+                            <select name="role" id="" class="form-control">
+                                <option value="1">Administrator</option>
+                                <option value="2">Manajer Operasional</option>
+                                <option value="3">Peminjam</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="float: right;">Simpan</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
 @stop
 
 @section('css')

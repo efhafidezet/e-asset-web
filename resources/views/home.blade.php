@@ -18,7 +18,7 @@
             </span>
             <div class="info-box-content">
                 <span class="info-box-text">Penugasan Selesai</span>
-                <span class="info-box-number"> 10<small>%</small> </span>
+                <span class="info-box-number"> {{count($dataAssignmentDone)}}<small></small> </span>
             </div>
             <!-- /.info-box-content -->
         </div>
@@ -28,11 +28,11 @@
     <div class="col-12 col-sm-6 col-md-3">
         <div class="info-box mb-3">
             <span class="info-box-icon bg-danger elevation-1">
-                <i class="fas fa-thumbs-up"></i>
+                <i class="fas fa-cog"></i>
             </span>
             <div class="info-box-content">
                 <span class="info-box-text">Sedang Berjalan</span>
-                <span class="info-box-number">41,410</span>
+                <span class="info-box-number">{{count($dataAssignmentRunning)}}</span>
             </div>
             <!-- /.info-box-content -->
         </div>
@@ -44,11 +44,11 @@
     <div class="col-12 col-sm-6 col-md-3">
         <div class="info-box mb-3">
             <span class="info-box-icon bg-success elevation-1">
-                <i class="fas fa-shopping-cart"></i>
+                <i class="fas fa-cog"></i>
             </span>
             <div class="info-box-content">
                 <span class="info-box-text">Jumlah Penugasan</span>
-                <span class="info-box-number">760</span>
+                <span class="info-box-number">{{count($dataAssignment)}}</span>
             </div>
             <!-- /.info-box-content -->
         </div>
@@ -58,11 +58,11 @@
     <div class="col-12 col-sm-6 col-md-3">
         <div class="info-box mb-3">
             <span class="info-box-icon bg-warning elevation-1">
-                <i class="fas fa-users"></i>
+                <i class="fas fa-cog"></i>
             </span>
             <div class="info-box-content">
                 <span class="info-box-text">Jumlah Aset</span>
-                <span class="info-box-number">2,000</span>
+                <span class="info-box-number">{{count($dataAsset)}}</span>
             </div>
             <!-- /.info-box-content -->
         </div>
@@ -126,7 +126,7 @@
         <div class="card">
             <div class="card-header border-0">
                 <div class="d-flex justify-content-between">
-                    <h3 class="card-title">Penugasan <span class="text-muted">Hari ini</span></h3>
+                    <h3 class="card-title">Penugasan <span class="text-muted">Berjalan</span></h3>
                     <a href="javascript:void(0);">Lihat Semua</a>
                 </div>
             </div>
@@ -143,17 +143,17 @@
                         <tr>
                             <td>1</td>
                             <td>Survei Sanitasi PNJ</td>
-                            <td align=""><span class="badge bg-warning" style="color: white;">BERJALAN</span></td>
+                            <td align=""><span class="badge bg-warning" style="color: white;">Lacak</span></td>
                         </tr>
                         <tr>
                             <td>2</td>
                             <td>Survei Sanitasi Kota Bogor</td>
-                            <td align=""><span class="badge bg-success">SELESAI</span></td>
+                            <td align=""><span class="badge bg-success">Lacak</span></td>
                         </tr>
                         <tr>
                             <td>3</td>
                             <td>Kelayakan Sungai 'X'</td>
-                            <td align=""><span class="badge bg-gray">TIDAK ADA STATUS</span></td>
+                            <td align=""><span class="badge bg-gray">Lacak</span></td>
                         </tr>
                     </tbody>
                 </table>

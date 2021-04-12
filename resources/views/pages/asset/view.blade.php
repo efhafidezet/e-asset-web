@@ -26,27 +26,103 @@
                             <thead>
                                 <tr>
                                     <th style="width: 10px;">No</th>
-                                    <th>Nama</th>
+                                    <th>Nama Aset</th>
                                     <th>Jenis</th>
                                     <th>Tahun</th>
                                     <th>Status</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($data as $index => $item)
                                 <tr>
-                                    <td>1</td>
-                                    <td>Toyota Kijang Innova - B117VN</td>
-                                    <td>Kendaraan</td>
-                                    <td>2017</td>
+                                    <td>{{$index+1}}</td>
+                                    <td>{{$item->asset_name." - ".$item->asset_unique}}</td>
+                                    <td>@if ($item->asset_type == "1")
+                                        Kendaraan
+                                    @else
+                                        Ponsel
+                                    @endif</td>
+                                    <td>{{$item->asset_year}}</td>
                                     <td align="center"><span class="badge bg-success">TERSEDIA</span></td>
+                                    <td align="center">
+                                        <button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modal-update-data-1">
+                                            Edit
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal-delete-data-1">
+                                            Hapus
+                                        </button>
+                                    </td>
                                 </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Samsung Galaxy A51 - Biru 1</td>
-                                    <td>Ponsel</td>
-                                    <td>2019</td>
-                                    <td align="center"><span class="badge bg-warning">TIDAK TERSEDIA</span></td>
-                                </tr>
+                                <div class="modal fade" id="modal-update-data-1">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Ubah Aset</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <form class="form-horizontal" method="POST" action="{{url('')}}/asset/update">
+                                                @csrf
+                                                <div class="card-body">
+                                                    <div class="form-group row">
+                                                        <label for="" class="col-sm-4 col-form-label">Nama Aset</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" class="form-control" id="" placeholder="" name="asset_name" value="{{$item->asset_name}}" required/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="" class="col-sm-4 col-form-label">Jenis Aset</label>
+                                                        <div class="col-sm-8">
+                                                            <select name="asset_type" id="" class="form-control">
+                                                                <option value="1">Kendaraan</option>
+                                                                <option value="2">Ponsel</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="" class="col-sm-4 col-form-label">Tahun Aset</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" class="form-control" id="" placeholder="" name="asset_year" value="{{$item->asset_year}}" required/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="" class="col-sm-4 col-form-label">Keunikan</label>
+                                                        <div class="col-sm-8">
+                                                            <textarea class="form-control" name="asset_unique" rows="5">{{$item->asset_unique}}</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <input type="hidden" class="form-control" id="" placeholder="" name="asset_id" value="{{$item->asset_id}}" required/>
+                                                    <button type="submit" class="btn btn-primary" style="float: right;">Simpan</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!-- /.modal-content -->
+                                    </div>
+                                    <!-- /.modal-dialog -->
+                                </div>
+                                <div class="modal fade" id="modal-delete-data-1">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Hapus Aset</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <form class="form-horizontal" method="POST" action="">
+                                                @csrf
+                                                <div class="card-body">
+                                                    <button type="submit" class="btn btn-danger" style="float: right;">Hapus</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!-- /.modal-content -->
+                                    </div>
+                                    <!-- /.modal-dialog -->
+                                </div>
+                                @endforeach
                             </tbody>
                         </table>                        
                     </div>
@@ -73,14 +149,30 @@
                 @csrf
                 <div class="card-body">
                     <div class="form-group row">
-                        <label for="inputName" class="col-sm-4 col-form-label">Nama Aset</label>
+                        <label for="" class="col-sm-4 col-form-label">Nama Aset</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="inputName" placeholder="" name="nama_aset" value="" required/>
-                            {{-- @error('mName')
-                                <span class="text-danger" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror --}}
+                            <input type="text" class="form-control" id="" placeholder="" name="asset_name" value="" required/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-sm-4 col-form-label">Jenis Aset</label>
+                        <div class="col-sm-8">
+                            <select name="asset_type" id="" class="form-control">
+                                <option value="1">Kendaraan</option>
+                                <option value="2">Ponsel</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-sm-4 col-form-label">Tahun Aset</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="" placeholder="" name="asset_year" value="" required/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="" class="col-sm-4 col-form-label">Keunikan</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" name="asset_unique" rows="5"></textarea>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary" style="float: right;">Simpan</button>

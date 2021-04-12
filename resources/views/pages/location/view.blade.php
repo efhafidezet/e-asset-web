@@ -3,10 +3,19 @@
 @section('title', 'Penugasan')
 
 @section('content_header')
-<h1>Penugasan</h1>
+<h1>Lokasi</h1>
 @stop
 
 @section('content')
+<style>
+    .modal { z-index: 1001 !important;} 
+    .modal-backdrop {z-index: 1000 !important;}
+    .pac-container {z-index: 1055 !important;}
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyuhSR2JKeiomWn1hEgvrFdLlEoya_imY&libraries=places&language=id"></script>
+
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
@@ -46,20 +55,104 @@
                             <thead>
                                 <tr>
                                     <th style="width: 10px;">No</th>
-                                    <th>Nama</th>
-                                    <th>Lokasi</th>
-                                    <th>Tanggal</th>
-                                    <th>Status</th>
+                                    <th>Nama Lokasi</th>
+                                    <th>Latitude</th>
+                                    <th>Longitude</th>
+                                    <th>URL</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Survei Sanitasi</td>
-                                    <td>Politeknik Negeri Jakarta</td>
-                                    <td>1 Maret 2021</td>
-                                    <td align="center"><span class="badge bg-success">SELESAI</span></td>
-                                </tr>
+                                @foreach ($data as $index => $item)
+                                    <tr>
+                                        <td>{{$index+1}}</td>
+                                        <td>{{$item->location_name}}</td>
+                                        <td>{{$item->latitude}}</td>
+                                        <td>{{$item->longitude}}</td>
+                                        <td align="center">
+                                            <a href="http://maps.google.com/?q={{$item->latitude}},{{$item->longitude}}" target="_blank" rel="noopener noreferrer">
+                                                Google Maps
+                                            </a>
+                                        </td>
+                                        <td align="center">
+                                            <button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modal-update-data-{{$item->location_id}}">
+                                                Edit
+                                            </button>
+                                            <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal-delete-data-{{$item->location_id}}">
+                                                Hapus
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <script type="text/javascript">
+                                        /* Google Maps Search handler */
+                                        var searchInput{{$item->location_id}} = 'search_input{{$item->location_id}}';
+                                        $(document).ready(function() {
+                                            var autocomplete;
+                                            autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput{{$item->location_id}})), {
+                                                types: ['geocode'],
+                                                componentRestrictions: {
+                                                    country: "ID"
+                                                }
+                                            });
+                                        
+                                            google.maps.event.addListener(autocomplete, 'place_changed', function() {
+                                                var near_place = autocomplete.getPlace();
+                                                document.getElementById('loc_lat{{$item->location_id}}').value = near_place.geometry.location.lat();
+                                                document.getElementById('loc_long{{$item->location_id}}').value = near_place.geometry.location.lng();
+                                            });
+                                        });
+                                    </script>
+                                    <div class="modal fade" id="modal-update-data-{{$item->location_id}}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Ubah Lokasi</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form class="form-horizontal" method="POST" action="{{url('')}}/location/update">
+                                                    @csrf
+                                                    <div class="card-body">
+                                                        <div class="form-group row">
+                                                            <label for="inputName" class="col-sm-4 col-form-label">Nama Lokasi</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="text" class="form-control" id="search_input{{ $item->location_id }}" placeholder="" name="location_name" value="{{$item->location_name}}" required/>
+                                                            </div>
+                                                        </div>
+                                                        <input type="hidden" name="location_id" value="{{ $item->location_id }}">
+                                                        <input type="hidden" class="form-control" id="loc_lat{{ $item->location_id }}" placeholder="" name="latitude" value="{{ $item->latitude }}" required/>
+                                                        <input type="hidden" class="form-control" id="loc_long{{ $item->location_id }}" placeholder="" name="longitude" value="{{ $item->longitude }}" required/>
+                                                        <button type="submit" class="btn btn-primary" style="float: right;">Simpan</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <!-- /.modal-content -->
+                                        </div>
+                                        <!-- /.modal-dialog -->
+                                    </div>
+                                    <div class="modal fade" id="modal-delete-data-{{$item->location_id}}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Hapus Lokasi</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form class="form-horizontal" method="POST" action="{{url('')}}/location/delete">
+                                                    @csrf
+                                                    <div class="card-body">
+                                                        <input type="hidden" name="location_id" value="{{ $item->location_id }}">
+                                                        <button type="submit" class="btn btn-danger" style="float: right;">Hapus</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <!-- /.modal-content -->
+                                        </div>
+                                        <!-- /.modal-dialog -->
+                                    </div>
+                                @endforeach
                             </tbody>
                         </table>                        
                     </div>
@@ -73,6 +166,88 @@
     <!-- /.container-fluid -->
 </section>
 <!-- /.content -->
+
+<script type="text/javascript">
+    /* Google Maps Search handler */
+var searchInput = 'search_input';
+$(document).ready(function() {
+    var autocomplete;
+    autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
+        // types: ['geocode'],
+        componentRestrictions: {
+            country: "ID"
+        }
+    });
+
+    google.maps.event.addListener(autocomplete, 'place_changed', function() {
+        var near_place = autocomplete.getPlace();
+        document.getElementById('loc_lat').value = near_place.geometry.location.lat();
+        document.getElementById('loc_long').value = near_place.geometry.location.lng();
+    });
+});
+</script>
+
+<div class="modal fade" id="modal-lg">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Tambah Lokasi Baru</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="form-horizontal" method="POST" action="{{url('')}}/location">
+                @csrf
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label for="inputName" class="col-sm-2 col-form-label">Nama Lokasi</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="search_input" placeholder="" name="location_name" value="" required/>
+                        </div>
+                    </div>
+                    {{-- <div class="form-group row">
+                        <label for="inputName" class="col-sm-4 col-form-label">Latitude</label>
+                        <div class="col-sm-8">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputName" class="col-sm-4 col-form-label">Longitude</label>
+                        <div class="col-sm-8">
+                        </div>
+                    </div> --}}
+                    <input type="hidden" class="form-control" id="loc_lat" placeholder="" name="latitude" value="" required/>
+                    <input type="hidden" class="form-control" id="loc_long" placeholder="" name="longitude" value="" required/>
+                    <input type="hidden" class="form-control" id="is_active" placeholder="" name="is_active" value="1" required/>
+                    <button type="submit" class="btn btn-primary" style="float: right;">Simpan</button>
+                    {{-- <div class="md-form ml-0 mr-0">
+                        <div class="form-group">
+                            <label>Lokasi:</label>
+                            <input type="text" class="form-control" id="search_input" placeholder="Αναζήτηση διεύθυνσης..." />
+                            <input type="hidden" id="loc_lat" />
+                            <input type="hidden" id="loc_long" />
+                        </div>
+                        <!-- Display latitude and longitude -->
+                        <div class="latlong-view">
+                            <p style="text-align: center;">
+                                <b>Latitude:</b>
+                                <span id="latitude_view"></span>
+                                <b>| Longitude:</b>
+                                <span id="longitude_view"></span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button class="btn btn-cyan waves-effect waves-light" onclick="goTo()" style=" font-size: 1.2rem;">
+                            <i class="fa fa-search ml-1"></i>
+                        </button>
+                    </div> --}}
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
 @stop
 
 @section('css')
@@ -80,6 +255,9 @@
 @stop
 
 @section('js')
+<script>
+    console.log('Hi!'); 
+</script>
 <script>
     $(function () {
         $("#example1").DataTable({
@@ -161,8 +339,5 @@
         });
   
     })
-</script>
-<script>
-    console.log('Hi!'); 
 </script>
 @stop
