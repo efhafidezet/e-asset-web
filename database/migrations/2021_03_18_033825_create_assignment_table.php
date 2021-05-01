@@ -20,7 +20,7 @@ class CreateAssignmentTable extends Migration
             $table->longText('assignment_details');
             $table->integer('location_id');
             $table->integer('radius');
-            $table->integer('assignment_status');
+            $table->integer('assignment_status');           //0 Belum Tersedia, 1 Selesai, 2 Berjalan
             $table->tinyInteger('is_active')->default('1');
             $table->timestamps();
         });

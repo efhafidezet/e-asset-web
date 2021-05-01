@@ -11,6 +11,7 @@ class ReportCtrl extends Controller
         $data = DB::table('borrow')
         ->join('assignment','assignment.assignment_id','=','borrow.assignment_id')
         ->join('users','users.id','=','borrow.user_id')
+        ->join('asset_status','asset_status.borrow_id','=','borrow.borrow_id')
         ->join('asset','asset.asset_id','=','borrow.asset_id')
         ->join('location','location.location_id','=','assignment.location_id')
         ->join('return','return.borrow_id','=','borrow.borrow_id')

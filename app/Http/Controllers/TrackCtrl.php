@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Track;
+use App\Models\Assignment;
+use App\Models\AssetStatus;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 class TrackCtrl extends Controller
@@ -14,28 +17,55 @@ class TrackCtrl extends Controller
     }
 
     public function sendTrackedLocation(Request $request) {
-        $data = Track::create([
+        $insertdata = Track::create([
     		'borrow_id' => $request->borrow_id,
     		'track_time' => Carbon::now()->toDateTimeString(),
     		'latitude' => $request->latitude,
     		'longitude' => $request->longitude
     	]);
 
-        return response()->json($data, 200);
+        // return response()->json($data, 200);
 
-        // $earthRadius = 6371000;             //in meters
-        // // convert from degrees to radians
-        // $latFrom = deg2rad('-6.3657999');
-        // $lonFrom = deg2rad('106.8343395');
-        // $latTo = deg2rad('-6.372998');
-        // $lonTo = deg2rad('106.834803');
+        $data = DB::table('borrow')
+        ->join('assignment','assignment.assignment_id','=','borrow.assignment_id')
+        ->join('asset_status','asset_status.borrow_id','=','borrow.borrow_id')
+        ->join('asset','asset.asset_id','=','borrow.asset_id')
+        ->join('location','location.location_id','=','assignment.location_id')
+        ->join('return','return.borrow_id','=','borrow.borrow_id')
+        ->where('borrow.borrow_id', $request->borrow_id)
+        ->get();
 
-        // $latDelta = $latTo - $latFrom;
-        // $lonDelta = $lonTo - $lonFrom;
+        $earthRadius = 6371000;             //in meters
+        // convert from degrees to radians
+        $latFrom = deg2rad($request->latitude);
+        $lonFrom = deg2rad($request->longitude);
+        $latTo = deg2rad($data[0]->latitude);
+        $lonTo = deg2rad($data[0]->longitude);
 
-        // $angle = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) +
-        //     cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
-        // return $angle * $earthRadius ." Meters";
+        $latDelta = $latTo - $latFrom;
+        $lonDelta = $lonTo - $lonFrom;
+
+        $angle = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) +
+            cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
+        $calc = $angle * $earthRadius;
+        // return $calc ." Meters";
+
+        if ($calc <= $data[0]->radius) {
+            AssetStatus::where('borrow_id', $request->borrow_id)->update([
+                'asset_status_flag' => 1,
+            ]);
+        } 
+
+        $resdata = [
+            'latFrom' => $request->latitude,
+            'lonFrom' => $request->longitude,
+            'latTo' => $data[0]->latitude,
+            'lonTo' => $data[0]->longitude,
+            'calc' => $calc
+        ];
+
+        return response()->json($resdata, 200);
+        // return response()->json($data, 200);
     }
 
     public function getTrackedLocation($id) {

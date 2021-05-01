@@ -19,7 +19,7 @@ class CreateAssetTable extends Migration
             $table->string('asset_type');
             $table->string('asset_unique');
             $table->string('asset_year');
-            $table->integer('status');
+            $table->integer('asset_status');                //0 Tidak Tersedia, 1 Tersedia
             $table->tinyInteger('is_active')->default('1');
             $table->timestamps();
         });

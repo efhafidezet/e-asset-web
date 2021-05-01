@@ -24,6 +24,11 @@ Route::post('login', 'UserCtrl@login');
 Route::get('getAssignment', 'AssignmentCtrl@showApi');
 Route::get('getAssignmentID/{id}', 'AssignmentCtrl@showApiID');
 
+Route::get('getAsset', 'AssetCtrl@showApi');
+
+Route::get('getHistory/{id}', 'AssignmentCtrl@showHistory');
+
+Route::get('borrow/{id}', 'BorrowCtrl@showApiID');
 Route::post('borrow', 'BorrowCtrl@store');
 Route::post('return', 'ReturnCtrl@store');
 

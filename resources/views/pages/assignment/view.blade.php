@@ -67,7 +67,9 @@
                                     <td>{{$item->assignment_details}}</td>
                                     <td>{{$item->radius}}</td>
                                     <td align="center">
-                                        @if ($item->assignment_status == 1)
+                                        @if ($item->assignment_status == 0)
+                                        <span class="badge bg-info">Belum ada status</span>
+                                        @elseif ($item->assignment_status == 1)
                                         <span class="badge bg-success">Selesai</span>
                                         @else
                                         <span class="badge bg-warning">Berjalan</span>
@@ -75,16 +77,16 @@
                                     </td>
                                     <td align="center">
                                         <button type="button" class="btn btn-warning btn-xs" data-toggle="modal"
-                                            data-target="#modal-update-data-1">
+                                            data-target="#modal-update-data-{{$index+1}}">
                                             Edit
                                         </button>
                                         <button type="button" class="btn btn-danger btn-xs" data-toggle="modal"
-                                            data-target="#modal-delete-data-1">
+                                            data-target="#modal-delete-data-{{$index+1}}">
                                             Hapus
                                         </button>
                                     </td>
                                 </tr>
-                                <div class="modal fade" id="modal-update-data-1">
+                                <div class="modal fade" id="modal-update-data-{{$index+1}}">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -165,10 +167,16 @@
                                                         <div class="col-sm-8">
                                                             <select name="assignment_status" id="" class="form-control">
                                                                 @if ($item->assignment_status == 0)
+                                                                <option value="2">Berjalan</option>
                                                                 <option value="1">Selesai</option>
                                                                 <option value="0" selected>Belum Tersedia</option>
-                                                                @else
+                                                                @elseif ($item->assignment_status == 1) 
+                                                                <option value="2">Berjalan</option>
                                                                 <option value="1" selected>Selesai</option>
+                                                                <option value="0">Belum Tersedia</option>
+                                                                @else
+                                                                <option value="2" selected>Berjalan</option>
+                                                                <option value="1">Selesai</option>
                                                                 <option value="0">Belum Tersedia</option>
                                                                 @endif
                                                             </select>
@@ -186,7 +194,7 @@
                                     </div>
                                     <!-- /.modal-dialog -->
                                 </div>
-                                <div class="modal fade" id="modal-delete-data-1">
+                                <div class="modal fade" id="modal-delete-data-{{$index+1}}">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">

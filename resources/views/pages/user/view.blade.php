@@ -62,8 +62,10 @@
                                         <td>
                                             @if ($item->role == 1)
                                                 Administrator
-                                            @else
+                                            @elseif ($item->role == 2)
                                                 Manajer Operasional
+                                            @else
+                                                Peminjam
                                             @endif
                                         </td>
                                         <td align="center">
@@ -134,18 +136,17 @@
                                                                     @if ($item->role == 1)
                                                                         <option value="1" selected>Administrator</option>
                                                                         <option value="2">Manajer Operasional</option>
+                                                                        <option value="3">Peminjam</option>     
+                                                                    @elseif ($item->role == 2)
+                                                                        <option value="1">Administrator</option>
+                                                                        <option value="2" selected>Manajer Operasional</option>
                                                                         <option value="3">Peminjam</option>
                                                                     @else
-                                                                        @if ($item->role == 2)
-                                                                            <option value="1">Administrator</option>
-                                                                            <option value="2" selected>Manajer Operasional</option>
-                                                                            <option value="3">Peminjam</option>
-                                                                        @else
-                                                                            <option value="1">Administrator</option>
-                                                                            <option value="2">Manajer Operasional</option>
-                                                                            <option value="3" selected>Peminjam</option>
-                                                                        @endif
+                                                                        <option value="1">Administrator</option>
+                                                                        <option value="2">Manajer Operasional</option>
+                                                                        <option value="3" selected>Peminjam</option>
                                                                     @endif
+                                                                    {{-- {{$item->role}} --}}
                                                                 </select>
                                                             </div>
                                                         </div>

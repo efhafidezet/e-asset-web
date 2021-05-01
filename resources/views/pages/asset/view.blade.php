@@ -44,17 +44,23 @@
                                         Ponsel
                                     @endif</td>
                                     <td>{{$item->asset_year}}</td>
-                                    <td align="center"><span class="badge bg-success">TERSEDIA</span></td>
                                     <td align="center">
-                                        <button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modal-update-data-1">
+                                        @if ($item->asset_status == 1)
+                                            <span class="badge bg-success">Tersedia</span>
+                                        @else
+                                            <span class="badge bg-danger">Tidak Tersedia</span>
+                                        @endif
+                                    </td>
+                                    <td align="center">
+                                        <button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modal-update-data-{{$index+1}}">
                                             Edit
                                         </button>
-                                        <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal-delete-data-1">
+                                        <button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal-delete-data-{{$index+1}}">
                                             Hapus
                                         </button>
                                     </td>
                                 </tr>
-                                <div class="modal fade" id="modal-update-data-1">
+                                <div class="modal fade" id="modal-update-data-{{$index+1}}">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -93,6 +99,20 @@
                                                             <textarea class="form-control" name="asset_unique" rows="5">{{$item->asset_unique}}</textarea>
                                                         </div>
                                                     </div>
+                                                    <div class="form-group row">
+                                                        <label for="" class="col-sm-4 col-form-label">Status</label>
+                                                        <div class="col-sm-8">
+                                                            <select name="asset_status" id="" class="form-control">
+                                                                @if ($item->asset_status == 1)
+                                                                    <option value="1" selected>Tersedia</option>
+                                                                    <option value="0">Tidak Tersedia</option>
+                                                                @else
+                                                                    <option value="1">Tersedia</option>
+                                                                    <option value="0" selected>Tidak Tersedia</option>
+                                                                @endif
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                     <input type="hidden" class="form-control" id="" placeholder="" name="asset_id" value="{{$item->asset_id}}" required/>
                                                     <button type="submit" class="btn btn-primary" style="float: right;">Simpan</button>
                                                 </div>
@@ -102,7 +122,7 @@
                                     </div>
                                     <!-- /.modal-dialog -->
                                 </div>
-                                <div class="modal fade" id="modal-delete-data-1">
+                                <div class="modal fade" id="modal-delete-data-{{$index+1}}">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">

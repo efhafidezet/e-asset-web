@@ -25,11 +25,11 @@ class ReturnCtrl extends Controller
                ->get();
 
         Assignment::where('assignment_id', $getBorrow[0]->assignment_id)->update([
-            'assignment_status' => 3,
+            'assignment_status' => 1,
         ]);
 
         Asset::where('asset_id', $getBorrow[0]->asset_id)->update([
-            'status' => 1,
+            'asset_status' => 1,
         ]);
 
         // return response()->json($getBorrow[0], 200);

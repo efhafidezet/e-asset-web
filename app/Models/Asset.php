@@ -17,7 +17,7 @@ class Asset extends Model
         'asset_type',
         'asset_unique',
         'asset_year',
-        'status',
+        'asset_status',
         'is_active'
     ];
 }

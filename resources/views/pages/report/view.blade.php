@@ -54,7 +54,7 @@
                                     <th>Tanggal Peminjaman</th>
                                     <th>Tanggal Pengembalian</th>
                                     <th>Lokasi Saat Ini</th>
-                                    <th>Status</th>
+                                    <th>Status Peminjaman</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -74,17 +74,16 @@
                                         @endif
                                     </td>
                                     <td align="center">
-                                        <a href="{{url('')}}/track/{{$item->borrow_id}}">
+                                        <a href="{{url('')}}/track/{{$item->borrow_id}}" target="_blank">
                                             <span class="badge bg-info">Lacak</span>
                                         </a>
                                     </td>
                                     <td align="center">
-                                        @if ($item->assignment_status == 1)
-                                        <span class="badge bg-success">Selesai</span>
+                                        @if ($item->asset_status_flag == 1)
+                                        <span class="badge bg-success">Sesuai</span>
                                         @else
-                                        <span class="badge bg-warning">Berjalan</span>
+                                        <span class="badge bg-warning">Penyalahgunaan</span>
                                         @endif
-                                        {{-- <span class="badge bg-success">Selesai</span> --}}
                                     </td>
                                 </tr>
                                 @endforeach

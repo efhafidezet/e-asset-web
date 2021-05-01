@@ -19,7 +19,7 @@ class AssetCtrl extends Controller
     		'asset_type' => $request->asset_type,
     		'asset_unique' => $request->asset_unique,
     		'asset_year' => $request->asset_year,
-    		'status' => 1,
+    		'asset_status' => 1,
     		'is_active' => 1
     	]);
  
@@ -33,6 +33,7 @@ class AssetCtrl extends Controller
                 'asset_type' => $request->asset_type,
                 'asset_unique' => $request->asset_unique,
                 'asset_year' => $request->asset_year,
+                'asset_status' => $request->asset_status,
                 ]);
  
     	return redirect('/asset');
@@ -43,5 +44,11 @@ class AssetCtrl extends Controller
             ->update(['is_active' => 0]);
  
     	return redirect('/asset');
+    }
+
+    public function showApi() {
+        $data = Asset::where('is_active', 1)
+               ->get();
+        return response()->json($data, 200);
     }
 }

@@ -28,7 +28,7 @@ class AssignmentCtrl extends Controller
     		'assignment_details' => $request->assignment_details,
     		'location_id' => $request->location_id,
     		'radius' => $request->radius,
-    		'assignment_status' => 1,
+    		'assignment_status' => 0,
     		'is_active' => 1
     	]);
  
@@ -69,6 +69,19 @@ class AssignmentCtrl extends Controller
         ->join('location','location.location_id','=','assignment.location_id')
         ->where('assignment.is_active', 1)
         ->where('assignment.assignment_id', $id)
+        ->get();
+        return response()->json($data, 200);
+    }
+
+    public function showHistory($id) {
+        $data = DB::table('borrow')        
+        ->join('assignment','assignment.assignment_id','=','borrow.assignment_id')
+        ->join('return','return.borrow_id','=','borrow.borrow_id')
+        ->join('asset_status','asset_status.borrow_id','=','borrow.borrow_id')
+        ->join('asset','asset.asset_id','=','borrow.asset_id')
+        ->join('location','location.location_id','=','assignment.location_id')
+        ->where('assignment.assignment_status', 1)
+        ->where('borrow.user_id', $id)
         ->get();
         return response()->json($data, 200);
     }
