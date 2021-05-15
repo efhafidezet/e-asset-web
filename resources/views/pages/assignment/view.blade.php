@@ -248,8 +248,18 @@
                     <div class="form-group row">
                         <label for="inputName" class="col-sm-4 col-form-label">Nama Penugasan</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="inputName" placeholder="" name="assignment_name"
-                                value="" required />
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <select name="opt_assignment_name" id="" class="form-control">
+                                        <option value="Survey">Survey</option>
+                                        <option value="Kunjungan">Kunjungan</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-8">       
+                                    <input type="text" class="form-control" id="inputName" placeholder="" name="assignment_name"
+                            value="" required />
+                                </div>
+                            </div>
                             {{-- @error('mName')
                                 <span class="text-danger" role="alert">
                                     <strong>{{ $message }}</strong>

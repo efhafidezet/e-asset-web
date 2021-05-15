@@ -51,4 +51,36 @@ class AssetCtrl extends Controller
                ->get();
         return response()->json($data, 200);
     }
+
+    public function showApiByID($id) {
+        $data = Asset::where('asset_id', $id)
+               ->get();
+        return response()->json($data, 200);
+    }
+
+    public function createApi(Request $request) {
+        $data = Asset::create([
+    		'asset_name' => $request->asset_name,
+    		'asset_type' => $request->asset_type,
+    		'asset_unique' => $request->asset_unique,
+    		'asset_year' => $request->asset_year,
+    		'asset_status' => 1,
+    		'is_active' => 1
+    	]);
+ 
+        return response()->json($data, 200);
+    }
+
+    public function updateApi(Request $request) {
+        $data = Asset::where('asset_id', $request->asset_id)
+            ->update([
+                'asset_name' => $request->asset_name,
+                'asset_type' => "1",
+                'asset_unique' => $request->asset_unique,
+                'asset_year' => "99",
+                'asset_status' => "1",
+                ]);
+ 
+        return response()->json($data, 200);
+    }
 }

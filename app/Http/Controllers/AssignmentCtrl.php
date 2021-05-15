@@ -23,7 +23,7 @@ class AssignmentCtrl extends Controller
 
     public function store(Request $request) {
         Assignment::create([
-    		'assignment_name' => $request->assignment_name,
+    		'assignment_name' => $request->opt_assignment_name." ".$request->assignment_name,
     		'assignment_date' => $request->assignment_date,
     		'assignment_details' => $request->assignment_details,
     		'location_id' => $request->location_id,

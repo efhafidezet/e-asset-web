@@ -25,6 +25,9 @@ Route::get('getAssignment', 'AssignmentCtrl@showApi');
 Route::get('getAssignmentID/{id}', 'AssignmentCtrl@showApiID');
 
 Route::get('getAsset', 'AssetCtrl@showApi');
+Route::get('getAssetByID/{id}', 'AssetCtrl@showApiByID');
+Route::post('createAsset', 'AssetCtrl@createApi');
+Route::post('updateAsset', 'AssetCtrl@updateApi');
 
 Route::get('getHistory/{id}', 'AssignmentCtrl@showHistory');
 

@@ -170,21 +170,15 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ($dataAssignmentRunning as $index => $item)
                         <tr>
-                            <td>1</td>
-                            <td>Survei Sanitasi PNJ</td>
-                            <td align=""><span class="badge bg-warning" style="color: white;">Lacak</span></td>
+                            <td>{{$index+1}}</td>
+                            <td>{{$item->location_name}}</td>
+                            <td align="">
+                                <span class="badge bg-warning" style="color: white;">Lacak</span>
+                            </td>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Survei Sanitasi Kota Bogor</td>
-                            <td align=""><span class="badge bg-success">Lacak</span></td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Kelayakan Sungai 'X'</td>
-                            <td align=""><span class="badge bg-gray">Lacak</span></td>
-                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
