@@ -55,6 +55,7 @@
                                     <th>Tanggal Pengembalian</th>
                                     <th>Lokasi Saat Ini</th>
                                     <th>Status Peminjaman</th>
+                                    <th>Bukti</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -63,7 +64,7 @@
                                     <td>{{$index+1}}</td>
                                     <td>{{$item->assignment_name}}</td>
                                     <td>{{$item->name}}</td>
-                                    <td>{{$item->asset_name}}</td>
+                                    <td>{{$item->asset_name}} - {{$item->asset_unique}}</td>
                                     <td>{{$item->location_name}}</td>
                                     <td align="center">{{$item->borrow_date}}</td>
                                     <td align="center">
@@ -85,7 +86,39 @@
                                         <span class="badge bg-warning">Penyalahgunaan</span>
                                         @endif
                                     </td>
+                                    <td align="center">
+                                        @if ($item->image == "null")
+                                        <span class="badge bg-success">Sesuai</span>
+                                        @else
+                                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal"
+                                            data-target="#modal-view-data-{{$index+1}}">
+                                            Lihat
+                                        </button>
+                                        @endif
+                                    </td>
                                 </tr>
+                                <div class="modal fade" id="modal-view-data-{{$index+1}}">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Lihat Foto</h4>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <form class="form-horizontal" method="POST"
+                                                action="{{url('')}}/assignment/delete">
+                                                @csrf
+                                                <div class="card-body text-center">
+                                                    <img src="data:image/png;base64, {{$item->image}}" alt="" srcset="" style="height: 400px; ">
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!-- /.modal-content -->
+                                    </div>
+                                    <!-- /.modal-dialog -->
+                                </div>
                                 @endforeach
                             </tbody>
                         </table>

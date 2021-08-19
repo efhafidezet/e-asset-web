@@ -35,8 +35,7 @@ class TrackCtrl extends Controller
         ->where('borrow.borrow_id', $request->borrow_id)
         ->get();
 
-        $earthRadius = 6371000;             //in meters
-        // convert from degrees to radians
+        $earthRadius = 6371000; //in meters
         $latFrom = deg2rad($request->latitude);
         $lonFrom = deg2rad($request->longitude);
         $latTo = deg2rad($data[0]->latitude);
@@ -48,7 +47,8 @@ class TrackCtrl extends Controller
         $angle = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) +
             cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
         $calc = $angle * $earthRadius;
-        // return $calc ." Meters";
+
+        $calc = (sqrt(pow($latDelta, 2) + pow($lonDelta, 2)))*123;
 
         if ($calc <= $data[0]->radius) {
             AssetStatus::where('borrow_id', $request->borrow_id)->update([

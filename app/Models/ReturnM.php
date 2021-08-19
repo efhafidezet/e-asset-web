@@ -14,6 +14,7 @@ class ReturnM extends Model
 
     protected $fillable = [
         'return_date',
-        'borrow_id'
+        'borrow_id',
+        'image',
     ];
 }

@@ -31,12 +31,17 @@ class HomeController extends Controller
         $dataAsset = Asset::where('is_active', 1)
             ->get();
         $dataAssignment = Assignment::where('is_active', 1)
+            ->orderBy('assignment_date', 'DESC')
+            // ->limit(5)
             ->get();
         $dataAssignmentDone = Assignment::where('is_active', 1)
             ->where('assignment_status', 1)
+            ->orderBy('assignment_date', 'DESC')
             ->get();
         $dataAssignmentRunning = Assignment::where('is_active', 1)
             ->where('assignment_status', 2)
+            ->orderBy('assignment_date', 'DESC')
+            ->limit(10)
             ->get();
         return view('home', compact('dataLoc','dataAsset','dataAssignment','dataAssignmentDone','dataAssignmentRunning',));
         // return view('home');

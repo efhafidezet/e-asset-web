@@ -19,6 +19,7 @@ class ReturnCtrl extends Controller
 
         $data = ReturnM::where('borrow_id', $request->borrow_id)->update([
             'return_date' => Carbon::now()->toDateTimeString(),
+            'image' => $request->image
         ]);
 
         $getBorrow = Borrow::where('borrow_id', $request->borrow_id)

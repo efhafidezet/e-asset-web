@@ -116,12 +116,35 @@ class UserCtrl extends Controller
             ->update([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => $request->password,
+                'password' => Hash::make($request->new_password),
                 'role' => $request->role,
                 'is_active' => $request->is_active,
                 ]);
         }
  
     	return redirect('/user');
+    }
+
+    public function changePass(Request $request) {
+        $data = User::where('id', $request->user_id)
+        ->get();
+
+        
+        
+        if (Hash::check($request->old_password, $data[0]["password"])) {
+            $updatePassword = User::where('id', $request->user_id)
+                ->update([
+                'password' => Hash::make($request->new_password),
+            ]);
+            $res = [
+                "status" => "success"
+            ];
+            return response()->json($res, 200);
+        } else {
+            $res = [
+                "status" => "failed"
+            ];
+            return response()->json($res, 200);
+        }
     }
 }

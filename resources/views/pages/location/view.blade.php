@@ -51,6 +51,36 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
+                        {{-- <div id="inputcontainer">
+                            <input type="text" name="input0" id="input0" onkeyup="addInput();" />
+                        </div> --}}
+
+                        <script>
+                            var currentindex = 0;
+                            function addInput(){
+                                var lastinput = document.getElementById('input'+currentindex);
+                                if(lastinput.value != ''){
+                                    var container = document.getElementById('inputcontainer');
+                                    var newinput = document.createElement('input');
+                                    currentindex++;
+                                    newinput.type = "text";
+                                    newinput.name = 'input'+currentindex;
+                                    newinput.id = 'input'+currentindex;
+                                    newinput.autocomplete = 'on';
+                                    autocomplete1 = new google.maps.places.Autocomplete((document.getElementById('input'+currentindex)), {
+                                        componentRestrictions: {
+                                            country: "ID"
+                                        }
+                                    });
+                                    google.maps.event.addListener(autocomplete1, 'place_changed', function() {
+                                        var near_place = autocomplete.getPlace();
+                                    });
+                                    newinput.onkeyup = addInput;
+                                    container.appendChild(newinput);
+                                }
+                            }
+                        </script>
+
                         <table id="example1" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
@@ -103,7 +133,7 @@
                                         });
                                     </script>
                                     <div class="modal fade" id="modal-update-data-{{$item->location_id}}">
-                                        <div class="modal-dialog">
+                                        <div class="modal-dialog modal-lg">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h4 class="modal-title">Ubah Lokasi</h4>
@@ -143,6 +173,9 @@
                                                 <form class="form-horizontal" method="POST" action="{{url('')}}/location/delete">
                                                     @csrf
                                                     <div class="card-body">
+                                                        Anda yakin ingin menghapus data <br>
+                                                        {{$item->location_name}}?
+                                                        <hr>
                                                         <input type="hidden" name="location_id" value="{{ $item->location_id }}">
                                                         <button type="submit" class="btn btn-danger" style="float: right;">Hapus</button>
                                                     </div>
@@ -169,22 +202,22 @@
 
 <script type="text/javascript">
     /* Google Maps Search handler */
-var searchInput = 'search_input';
-$(document).ready(function() {
-    var autocomplete;
-    autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
-        // types: ['geocode'],
-        componentRestrictions: {
-            country: "ID"
-        }
-    });
+    var searchInput = 'search_input';
+    $(document).ready(function() {
+        var autocomplete;
+        autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
+            // types: ['geocode'],
+            componentRestrictions: {
+                country: "ID"
+            }
+        });
 
-    google.maps.event.addListener(autocomplete, 'place_changed', function() {
-        var near_place = autocomplete.getPlace();
-        document.getElementById('loc_lat').value = near_place.geometry.location.lat();
-        document.getElementById('loc_long').value = near_place.geometry.location.lng();
+        google.maps.event.addListener(autocomplete, 'place_changed', function() {
+            var near_place = autocomplete.getPlace();
+            document.getElementById('loc_lat').value = near_place.geometry.location.lat();
+            document.getElementById('loc_long').value = near_place.geometry.location.lng();
+        });
     });
-});
 </script>
 
 <div class="modal fade" id="modal-lg">

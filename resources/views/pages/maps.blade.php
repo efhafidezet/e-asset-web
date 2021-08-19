@@ -57,7 +57,7 @@
     }
 </script> --}}
 <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyuhSR2JKeiomWn1hEgvrFdLlEoya_imY&callback=initMap&libraries=places,geometry">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKE_d1Aq4DHl4Lj-SBXsAuNIxvuKIGv7k&callback=initMap&libraries=places,geometry">
 </script>
 <script>
     // var locationGlobal = [

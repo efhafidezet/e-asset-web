@@ -208,6 +208,9 @@
                                                 action="{{url('')}}/assignment/delete">
                                                 @csrf
                                                 <div class="card-body">
+                                                    Anda yakin ingin menghapus data <br>
+                                                    {{$item->assignment_name}}?
+                                                    <hr>
                                                     <input type="hidden" name="assignment_id"
                                                         value="{{ $item->assignment_id }}">
                                                     <button type="submit" class="btn btn-danger"

@@ -81,44 +81,41 @@
         </div>
     </div>
 </div> --}}
-<div class="row">
+{{-- <div class="row">
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
                 <div class="d-flex justify-content-between">
-                    <h3 class="card-title">Penugasan Tersedia</h3>
-                    <a href="javascript:void(0);">Lebih Rinci</a>
+                    <h3 class="card-title">Rekapitulasi Peminjaman</h3>
                 </div>
             </div>
             <div class="card-body">
                 <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;"></div>
-                {{-- <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;"></div> --}}
+                <!--<div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;"></div> -->
             </div>
         </div>
-        {{-- <div class="nav-tabs-custom">
-            <!-- Tabs within a box -->
+        <!--<div class="nav-tabs-custom">
             <ul class="nav nav-tabs pull-right">
                 <li class="active"><a href="#revenue-chart" data-toggle="tab">Area</a></li>
                 <li><a href="#sales-chart" data-toggle="tab">Donut</a></li>
                 <li class="pull-left header"><i class="fa fa-inbox"></i> Sales</li>
             </ul>
             <div class="tab-content no-padding">
-                <!-- Morris chart - Sales -->
                 <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;"></div>
                 <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;"></div>
             </div>
-        </div> --}}
-        <!-- /.nav-tabs-custom -->
+        </div> 
+        /.nav-tabs-custom -->
     </div>
-</div>
+</div> --}}
 
 <div class="row">
     <div class="col-lg-6">
         <div class="card">
             <div class="card-header border-0">
                 <div class="d-flex justify-content-between">
-                    <h3 class="card-title">Penugasan Tersedia</h3>
-                    <a href="javascript:void(0);">Lebih Rinci</a>
+                    <h3 class="card-title">Penugasan</h3>
+                    {{-- <a href="javascript:void(0);">Lebih Rinci</a> --}}
                 </div>
             </div>
             <div class="card-body p-0">
@@ -132,20 +129,18 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ($dataAssignment as $index => $item)
                         <tr>
-                            <td>1</td>
-                            <td>Survei Sanitasi PNJ</td>
-                            <td>
-                                <div class="text-muted">3 Maret 2021</div>
-                            </td>
+                            <td>{{$index+1}}</td>
+                            <td>{{$item->assignment_name}}</td>
+                            <td>{{date('d F Y', strtotime($item->assignment_date))}}</td>
+                            {{-- <td align="">
+                                <span class="badge bg-warning" style="color: white;">
+                                    {{$item->assignment_date}}
+                                </span>
+                            </td> --}}
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Kelayakan Sungai 'X'</td>
-                            <td>
-                                <div class="text-muted">1 Maret 2021</div>
-                            </td>
-                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -157,7 +152,7 @@
             <div class="card-header border-0">
                 <div class="d-flex justify-content-between">
                     <h3 class="card-title">Penugasan <span class="text-muted">Berjalan</span></h3>
-                    <a href="javascript:void(0);">Lihat Semua</a>
+                    {{-- <a href="javascript:void(0);">Lihat Semua</a> --}}
                 </div>
             </div>
             <div class="card-body p-0">
@@ -175,7 +170,9 @@
                             <td>{{$index+1}}</td>
                             <td>{{$item->location_name}}</td>
                             <td align="">
-                                <span class="badge bg-warning" style="color: white;">Lacak</span>
+                                <span class="badge bg-warning" style="color: white;">
+                                    Lacak
+                                </span>
                             </td>
                         </tr>
                         @endforeach
@@ -241,10 +238,10 @@
     data      : [
     //   { y: '2011 Q1', item1: 3, item2: 1 , item3: 2 },
     //   { y: '2011 Q2', item1: 2, item2: 4 , item3: 2 },
-      { y: '2011 Q3', item1: 4912, item2: 1969 },
-      { y: '2011 Q4', item1: 3767, item2: 3597 },
-      { y: '2012 Q1', item1: 6810, item2: 1914 },
-      { y: '2012 Q2', item1: 5670, item2: 4293 },
+      { y: '2011 Q3', item1: 4912, item2: 0 },
+      { y: '2011 Q4', item1: 3767, item2: 0 },
+      { y: '2012 Q1', item1: 6810, item2: 0 },
+      { y: '2012 Q2', item1: 5670, item2: 0 },
     //   { y: '2012 Q3', item1: 4820, item2: 3795 },
     //   { y: '2012 Q4', item1: 15073, item2: 5967 },
     //   { y: '2013 Q1', item1: 10687, item2: 4460 },
@@ -256,34 +253,34 @@
     lineColors: ['#a0d0e0', '#3c8dbc', '#3c8dbc'],
     hideHover : 'auto'
   });
-  var line = new Morris.Line({
-    element          : 'line-chart',
-    resize           : true,
-    data             : [
-      { y: '2011 Q1', item1: 2666 },
-      { y: '2011 Q2', item1: 2778 },
-      { y: '2011 Q3', item1: 4912 },
-      { y: '2011 Q4', item1: 3767 },
-      { y: '2012 Q1', item1: 6810 },
-      { y: '2012 Q2', item1: 5670 },
-      { y: '2012 Q3', item1: 4820 },
-      { y: '2012 Q4', item1: 15073 },
-      { y: '2013 Q1', item1: 10687 },
-      { y: '2013 Q2', item1: 8432 }
-    ],
-    xkey             : 'y',
-    ykeys            : ['item1'],
-    labels           : ['Item 1'],
-    lineColors       : ['#efefef'],
-    lineWidth        : 2,
-    hideHover        : 'auto',
-    gridTextColor    : '#fff',
-    gridStrokeWidth  : 0.4,
-    pointSize        : 4,
-    pointStrokeColors: ['#efefef'],
-    gridLineColor    : '#efefef',
-    gridTextFamily   : 'Open Sans',
-    gridTextSize     : 10
-  });
+//   var line = new Morris.Line({
+//     element          : 'line-chart',
+//     resize           : true,
+//     data             : [
+//       { y: '2011 Q1', item1: 2666 },
+//       { y: '2011 Q2', item1: 2778 },
+//       { y: '2011 Q3', item1: 4912 },
+//       { y: '2011 Q4', item1: 3767 },
+//       { y: '2012 Q1', item1: 6810 },
+//       { y: '2012 Q2', item1: 5670 },
+//       { y: '2012 Q3', item1: 4820 },
+//       { y: '2012 Q4', item1: 15073 },
+//       { y: '2013 Q1', item1: 10687 },
+//       { y: '2013 Q2', item1: 8432 }
+//     ],
+//     xkey             : 'y',
+//     ykeys            : ['item1'],
+//     labels           : ['Item 1'],
+//     lineColors       : ['#efefef'],
+//     lineWidth        : 2,
+//     hideHover        : 'auto',
+//     gridTextColor    : '#fff',
+//     gridStrokeWidth  : 0.4,
+//     pointSize        : 4,
+//     pointStrokeColors: ['#efefef'],
+//     gridLineColor    : '#efefef',
+//     gridTextFamily   : 'Open Sans',
+//     gridTextSize     : 10
+//   });
 </script>
 @stop

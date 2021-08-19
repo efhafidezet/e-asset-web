@@ -15,6 +15,7 @@ class AssignmentCtrl extends Controller
         $data = DB::table('assignment')
         ->join('location','location.location_id','=','assignment.location_id')
         ->where('assignment.is_active', 1)
+        ->orderBy('assignment_date', 'DESC')
         ->get();
         $data1 = Location::where('is_active', 1)
                ->get();
@@ -60,6 +61,7 @@ class AssignmentCtrl extends Controller
         $data = DB::table('assignment')
         ->join('location','location.location_id','=','assignment.location_id')
         ->where('assignment.is_active', 1)
+        ->where('assignment.assignment_status', 0)
         ->get();
         return response()->json($data, 200);
     }

@@ -134,6 +134,11 @@
                                             <form class="form-horizontal" method="POST" action="">
                                                 @csrf
                                                 <div class="card-body">
+                                                    Anda yakin ingin menghapus data <br>
+                                                    {{$item->asset_name}} - {{$item->asset_unique}}?
+                                                    <hr>
+                                                    <input type="hidden" name="assignment_id"
+                                                        value="{{ $item->asset_id }}">
                                                     <button type="submit" class="btn btn-danger" style="float: right;">Hapus</button>
                                                 </div>
                                             </form>

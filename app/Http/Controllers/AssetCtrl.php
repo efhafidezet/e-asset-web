@@ -52,6 +52,18 @@ class AssetCtrl extends Controller
         return response()->json($data, 200);
     }
 
+    public function showApiType($type) {
+        if ($type == 0) {
+            $data = Asset::where('is_active', 1)
+                ->get();
+        } else {
+            $data = Asset::where('is_active', 1)
+                ->where("asset_type", $type)    //1 Kendaraan 2 Ponsel
+                ->get();
+        }
+        return response()->json($data, 200);
+    }
+
     public function showApiByID($id) {
         $data = Asset::where('asset_id', $id)
                ->get();

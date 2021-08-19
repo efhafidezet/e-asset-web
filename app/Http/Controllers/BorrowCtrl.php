@@ -27,7 +27,8 @@ class BorrowCtrl extends Controller
 
         ReturnM::create([
             'return_date' => "1970-01-01 00:00:00",
-            'borrow_id' => $getBorrow[0]->borrow_id
+            'borrow_id' => $getBorrow[0]->borrow_id,
+            'image' => "null"
         ]);
 
         AssetStatus::create([

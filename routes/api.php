@@ -20,11 +20,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('register', 'UserCtrl@register');
 Route::post('login', 'UserCtrl@login');
+Route::post('changepass', 'UserCtrl@changePass');
 
 Route::get('getAssignment', 'AssignmentCtrl@showApi');
 Route::get('getAssignmentID/{id}', 'AssignmentCtrl@showApiID');
 
 Route::get('getAsset', 'AssetCtrl@showApi');
+Route::get('getAssetType/{type}', 'AssetCtrl@showApiType');
 Route::get('getAssetByID/{id}', 'AssetCtrl@showApiByID');
 Route::post('createAsset', 'AssetCtrl@createApi');
 Route::post('updateAsset', 'AssetCtrl@updateApi');
